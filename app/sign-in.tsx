@@ -1,15 +1,50 @@
+import { healthcheck } from "@/api/healthcheck";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
+import withAsync from "@/helpers/with-async";
 import { Redirect } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Image, Text, View, TouchableOpacity } from "react-native";
 
+enum APIStatus {
+    IDLE, PENDING, SUCCESS, ERROR
+}
+
+function useHealthCheck() {
+    const [health, setHealth] = useState({});
+    const [fetchHealthStatus, setFetchHealthStatus] = useState(APIStatus.IDLE);
+
+    async function initHealthCheck() {
+        setFetchHealthStatus(APIStatus.PENDING)
+
+        const {response, error} = await withAsync(healthcheck)
+
+        if (error) {
+            setFetchHealthStatus(APIStatus.ERROR)
+        } else {
+            setFetchHealthStatus(APIStatus.SUCCESS)
+            setHealth(response);
+        }
+    }
+
+    useEffect(() => {
+        initHealthCheck();
+    }, [])
+
+    return [health, fetchHealthStatus];
+}
+
 function SignIn() {
+    const [health, fetchHealthStatus] = useHealthCheck()
     const [loggedIn, setLoggedIn] = useState(false);
 
+    if (fetchHealthStatus === APIStatus.PENDING) return <Text>Is Loading...</Text>;
+
     function handleLogin() {
-        setLoggedIn(true);
+        setLoggedIn(true)
     }
+
+    console.log(health)
 
     if (loggedIn) return <Redirect href="/"/>
 
