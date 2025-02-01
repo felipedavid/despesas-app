@@ -1,35 +1,32 @@
 import { useEffect, useState } from 'react';
 import { View, Button, Text } from "react-native";
 import { fetchUserCategories } from "@/api/categoriesApi";
+import { APIStatus } from "@/api/api";
+import useApi from "@/api/hooks/useApi";
 
-function useFetchCategories() {
-    const [categories, setCategories] = useState([]);
-
-    const initFetchCategories = async () => {
-        const res = await fetchUserCategories();
-        console.log(res.data.categories);
-        setCategories(res.data.categories);
-    }
-
-    return {
-        categories,
-        initFetchCategories
-    }
-}
-
-export default function Categories() {
-    const { categories, initFetchCategories } = useFetchCategories();
+function useCategories() {
+    const {data: data, exec: initFetchCategories, status} = useApi(fetchUserCategories);
 
     useEffect(() => {
         initFetchCategories();
-    }, []);
+    }, [])
+    console.log(data);
+
+    return [data, status];
+}
+
+export default function Categories() {
+    const [ categories, status ] = useCategories();
 
     return (
         <View>
-            <Button title="Fetch Categories" onPress={initFetchCategories} className="mt-8" />
-            {categories.map((category) => (
-                <Text key={category.id}>{category.name}</Text>
-            ))}
+            {
+            status === APIStatus.PENDING || status === APIStatus.IDLE ?
+                <Text>Loading...</Text> :
+                categories?.map((category) => (
+                    <Text key={category.id}>{category.name}</Text>
+                ))
+            }
         </View>
     );
 }

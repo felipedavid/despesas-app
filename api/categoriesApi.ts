@@ -5,6 +5,10 @@ const URLS = {
 }
 
 export async function fetchUserCategories() {
-    const res = await api.get(URLS.fetchUsersCategories)
-    return res;
+    //return api.get(URLS.fetchUsersCategories).then((res: any) => res.categories)
+    const res: any = await api.get(URLS.fetchUsersCategories)
+    console.log(res.data.categories)
+    const data = res.data.categories;
+    return {
+        data: data};
 }

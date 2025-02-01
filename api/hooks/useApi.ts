@@ -10,7 +10,7 @@ function useApi(fn: Function, config = {}) {
 
     const exec = async (...args: any[]) => {
         try {
-            setStatus(APIStatus.IDLE)
+            setStatus(APIStatus.PENDING)
             const {data: resData} = await fn(...args);
             setData(resData);
             setStatus(APIStatus.SUCCESS);
