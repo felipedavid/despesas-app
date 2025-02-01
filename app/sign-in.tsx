@@ -1,31 +1,17 @@
-import { healthcheck } from "@/api/healthcheck";
+import { APIStatus } from "@/api/api";
+import { healthcheck } from "@/api/healthApi";
+import useApi from "@/api/hooks/useApi";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
-import withAsync from "@/helpers/with-async";
 import { Redirect } from "expo-router";
+import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Image, Text, View, TouchableOpacity } from "react-native";
 
-enum APIStatus {
-    IDLE, PENDING, SUCCESS, ERROR
-}
+WebBrowser.maybeCompleteAuthSession()
 
 function useHealthCheck() {
-    const [health, setHealth] = useState({});
-    const [fetchHealthStatus, setFetchHealthStatus] = useState(APIStatus.IDLE);
-
-    async function initHealthCheck() {
-        setFetchHealthStatus(APIStatus.PENDING)
-
-        const {response, error} = await withAsync(healthcheck)
-
-        if (error) {
-            setFetchHealthStatus(APIStatus.ERROR)
-        } else {
-            setFetchHealthStatus(APIStatus.SUCCESS)
-            setHealth(response);
-        }
-    }
+    const {data: health, exec: initHealthCheck, status: fetchHealthStatus} = useApi(healthcheck);
 
     useEffect(() => {
         initHealthCheck();
@@ -41,10 +27,10 @@ function SignIn() {
     if (fetchHealthStatus === APIStatus.PENDING) return <Text>Is Loading...</Text>;
 
     function handleLogin() {
-        setLoggedIn(true)
+        //WebBrowser.openBrowserAsync("http://192.168.0.109:8080/auth/google")
     }
 
-    console.log(health)
+    console.log(health, fetchHealthStatus?.toString())
 
     if (loggedIn) return <Redirect href="/"/>
 
@@ -53,7 +39,9 @@ function SignIn() {
             <ScrollView contentContainerClassName="h-full">
                 <Image source={images.onboarding} className="w-full h-4/6" resizeMode="contain"/>
                 <View className="pb-10">
-                    <Text className="text-base text-center uppercase font-rubik text-black-200">Bem-vindo(a) ao Saldo+</Text>
+                    <Text className="text-base text-center uppercase font-rubik text-black-200">
+                        Bem-vindo(a) ao Saldo+
+                    </Text>
                     <Text className="text-3xl font-rubik-bold text-black-300 text-center mt-2">
                         Vamos lá alcançar a sua {"\n"}
                         <Text className="text-primary-300">liberdade financeira!</Text>
