@@ -3,6 +3,9 @@ import { SplashScreen, Stack } from "expo-router";
 import "./global.css";
 import {useFonts} from "expo-font";
 import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -22,5 +25,7 @@ export default function RootLayout() {
 
   if (!fontsLoaded) return null;
 
-  return <Stack screenOptions={{headerShown: false}}/>;
+  return <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{headerShown: false}}/>
+    </QueryClientProvider>;
 }

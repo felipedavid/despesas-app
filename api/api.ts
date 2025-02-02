@@ -3,7 +3,7 @@ import axios from 'axios';
 const axiosParams = {
     baseURL: "http://192.168.0.109:8080",
     headers: {
-        'Authorization': 'Bearer ULKGKPBVNVHWML3KIC6MPTFRQM',
+        'Authorization': 'Bearer HJBJLCPW4LZFJL4OLHNQVZIBBE',
     },
 }
 
