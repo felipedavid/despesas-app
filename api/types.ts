@@ -47,3 +47,12 @@ interface Transaction {
     updated_at: string
     deleted_at: string | null
 }
+
+interface User {
+    id: number
+    name: string
+    email: string
+    phone_number: string | null
+    created_at: string
+    updated_at: string
+}

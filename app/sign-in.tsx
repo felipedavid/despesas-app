@@ -1,4 +1,5 @@
 import { APIStatus } from "@/api/api";
+import { authenticateUser } from "@/api/authApi";
 import { healthcheck } from "@/api/healthApi";
 import useApi from "@/api/hooks/useApi";
 import icons from "@/constants/icons";
@@ -26,8 +27,10 @@ function SignIn() {
 
     if (fetchHealthStatus === APIStatus.PENDING) return <Text>Is Loading...</Text>;
 
-    function handleLogin() {
+    async function handleLogin() {
         //WebBrowser.openBrowserAsync("http://192.168.0.109:8080/auth/google")
+        const res = await authenticateUser()
+        console.log(res.token.value);
     }
 
     console.log(health, fetchHealthStatus?.toString())

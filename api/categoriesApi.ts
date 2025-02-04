@@ -9,6 +9,5 @@ export async function fetchUserCategories() {
     const res: any = await api.get(URLS.fetchUsersCategories)
     console.log(res.data.categories)
     const data = res.data.categories;
-    return {
-        data: data};
+    return {data: data};
 }
