@@ -49,6 +49,22 @@ function TabsLayout() {
                 }}
             />
             <Tabs.Screen
+                name="transactions"
+                options={{
+                    title: 'Transactions',
+                    headerShown: false,
+                    tabBarIcon: ({ focused }) => <TabIcon icon={icons.wallet} focused={focused} title="Transactions"/>
+                }}
+            />
+            <Tabs.Screen
+                name="charts"
+                options={{
+                    title: 'Charts',
+                    headerShown: false,
+                    tabBarIcon: ({ focused }) => <TabIcon icon={icons.search} focused={focused} title="Charts"/>
+                }}
+            />
+            <Tabs.Screen
                 name="profile"
                 options={{
                     title: 'Profile',

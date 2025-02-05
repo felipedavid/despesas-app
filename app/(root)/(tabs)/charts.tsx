@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-function Explore() {
+function Charts() {
     return (
         <View>
             <Text>Explore page</Text>
@@ -8,4 +8,4 @@ function Explore() {
     );
 }
 
-export default Explore;
+export default Charts;
