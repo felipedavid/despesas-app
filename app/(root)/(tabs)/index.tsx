@@ -1,8 +1,10 @@
+import { Card, FeaturedCard } from "@/components/Cards";
+import Filters from "@/components/Filters";
 import Search from "@/components/Search";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
 import { Link } from "expo-router";
-import { SafeAreaView, Text, View, Image } from "react-native";
+import { SafeAreaView, Text, View, Image, TouchableOpacity } from "react-native";
 
 export default function Index() {
     return (
@@ -18,8 +20,36 @@ export default function Index() {
                     </View>
                     <Image source={icons.bell} className="size-6"/>
                 </View>
+                <Search/>
+                <View>
+                    <View className="flex flex-row items-center justify-between mt-5">
+                        <Text className="text-xal font-rubik-bold text-black-300">Featured</Text>
+                        <TouchableOpacity>
+                            <Text className="text-base font-rubik-bold text-primary-300">See All</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View className="flex flex-row gap-5 mt-5">
+                        <FeaturedCard/>
+                        <FeaturedCard/>
+                        <FeaturedCard/>
+                    </View>
+
+                    <View className="flex flex-row items-center justify-between mt-5">
+                        <Text className="text-xal font-rubik-bold text-black-300">Featured</Text>
+                        <TouchableOpacity>
+                            <Text className="text-base font-rubik-bold text-primary-300">See All</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <Filters/>
+
+                    <View className="flex flex-row gap-5 mt-5">
+                        <Card/>
+                        <Card/>
+                    </View>
+                </View>
             </View>
-            <Search/>
         </SafeAreaView>
     );
 }
