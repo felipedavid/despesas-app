@@ -4,11 +4,20 @@ import Search from "@/components/Search";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
 import { Link } from "expo-router";
-import { SafeAreaView, Text, View, Image, TouchableOpacity } from "react-native";
+import { SafeAreaView, Text, View, Image, TouchableOpacity, FlatList } from "react-native";
 
 export default function Index() {
     return (
         <SafeAreaView className="bg-white h-full">
+            <FlatList
+                data={[1,2,3]}
+                renderItem={({item}) => <Card/>}
+                keyExtractor={(item) => item.toString()}
+                numColumns={2}
+                contentContainerClassName="pb-32"
+                columnWrapperClassName="flex gap-5 px-5"
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={
             <View className="px-5">
                 <View className="flex flex-row items-center justify-between mt-5">
                     <View className="flex flex-row items-center">
@@ -29,11 +38,16 @@ export default function Index() {
                         </TouchableOpacity>
                     </View>
 
-                    <View className="flex flex-row gap-5 mt-5">
-                        <FeaturedCard/>
-                        <FeaturedCard/>
-                        <FeaturedCard/>
-                    </View>
+                    <FlatList
+                        data={[1,2,3]}
+                        renderItem={({item}) => <FeaturedCard/>}
+                        keyExtractor={(item) => item.toString()}
+                        horizontal
+                        bounces={false}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerClassName="flex gap-5 mt-5"
+                    />
+
 
                     <View className="flex flex-row items-center justify-between mt-5">
                         <Text className="text-xal font-rubik-bold text-black-300">Featured</Text>
@@ -44,12 +58,10 @@ export default function Index() {
 
                     <Filters/>
 
-                    <View className="flex flex-row gap-5 mt-5">
-                        <Card/>
-                        <Card/>
-                    </View>
                 </View>
             </View>
+                }
+                />
         </SafeAreaView>
     );
 }
